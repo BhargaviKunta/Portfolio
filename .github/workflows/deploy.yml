@@ -1,0 +1,41 @@
+name: Portfolio CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Show Files
+        run: ls -la
+
+      - name: Verify HTML File
+        run: |
+          if [ ! -f index.html ]; then
+            echo "index.html not found!"
+            exit 1
+          fi
+
+      - name: Verify CSS File
+        run: |
+          if [ ! -f style.css ]; then
+            echo "style.css not found!"
+            exit 1
+          fi
+
+      - name: Verify JS File
+        run: |
+          if [ ! -f script.js ]; then
+            echo "script.js not found!"
+            exit 1
+          fi
+
+      - name: Success Message
+        run: echo "Portfolio website checked successfully!"
