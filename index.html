@@ -1,84 +1,614 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhargavi Kunta | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bhargavi Kunta – Full Stack Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #1a1a24;
+      --accent: #7c6af7;
+      --accent2: #a78bfa;
+      --accent3: #06d6a0;
+      --text: #e8e8f0;
+      --text2: #9090a8;
+      --text3: #5a5a70;
+      --border: rgba(124,106,247,0.15);
+      --card: rgba(26,26,36,0.8);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 6%;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem; color: var(--accent2);
+      text-decoration: none; letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--text2); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent2); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 6% 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent3); font-size: 0.8rem; letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 800; line-height: 1.05;
+      background: linear-gradient(135deg, #fff 0%, var(--accent2) 60%, var(--accent3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin-bottom: 1rem;
+    }
+    .hero-title {
+      font-size: 1.1rem; color: var(--text2); margin-bottom: 1.5rem; font-weight: 400;
+    }
+    .hero-desc {
+      color: var(--text2); font-size: 0.95rem; line-height: 1.8;
+      max-width: 480px; margin-bottom: 2.5rem;
+    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      padding: 0.75rem 1.8rem; border-radius: 6px;
+      text-decoration: none; font-weight: 600; font-size: 0.9rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text2);
+      padding: 0.75rem 1.8rem; border-radius: 6px;
+      text-decoration: none; font-weight: 500; font-size: 0.9rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    /* Hero Visual – Terminal card */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+    }
+    .terminal {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 12px; width: 100%; max-width: 420px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(124,106,247,0.12);
+    }
+    .terminal-bar {
+      background: var(--bg2); padding: 0.75rem 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #ff5f57; }
+    .dot.y { background: #febc2e; }
+    .dot.g { background: #28c840; }
+    .terminal-title { color: var(--text3); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; margin-left: 0.5rem; }
+    .terminal-body { padding: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 2; }
+    .t-comment { color: var(--text3); }
+    .t-key { color: var(--accent2); }
+    .t-str { color: var(--accent3); }
+    .t-num { color: #f59e0b; }
+    .t-bracket { color: var(--text2); }
+    .cursor { display: inline-block; width: 8px; height: 15px; background: var(--accent2); vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Stats strip */
+    .stats-strip {
+      background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 2.5rem 6%;
+    }
+    .stats-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
+      color: var(--accent2);
+    }
+    .stat-label { color: var(--text3); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.2rem; }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 6%; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent3); font-size: 0.75rem; letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 800; margin-bottom: 3rem; line-height: 1.15;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;
+    }
+    .skill-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .skill-category {
+      font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent3); margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag {
+      background: rgba(124,106,247,0.12); color: var(--accent2);
+      border: 1px solid rgba(124,106,247,0.2);
+      padding: 0.3rem 0.7rem; border-radius: 4px;
+      font-size: 0.78rem; font-weight: 500;
+    }
+
+    /* ── EXPERIENCE ── */
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0;
+      width: 1px; background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+    .timeline-item { position: relative; margin-bottom: 3rem; }
+    .timeline-dot {
+      position: absolute; left: -2.35rem; top: 0.4rem;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent); border: 2px solid var(--bg);
+      box-shadow: 0 0 12px rgba(124,106,247,0.6);
+    }
+    .exp-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; color: var(--text3); margin-bottom: 0.4rem;
+    }
+    .exp-role {
+      font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700;
+      color: var(--text); margin-bottom: 0.2rem;
+    }
+    .exp-company { color: var(--accent2); font-size: 0.9rem; margin-bottom: 1rem; }
+    .exp-bullets { list-style: none; }
+    .exp-bullets li {
+      color: var(--text2); font-size: 0.88rem; padding: 0.4rem 0;
+      padding-left: 1.2rem; position: relative; line-height: 1.7;
+    }
+    .exp-bullets li::before {
+      content: '→'; position: absolute; left: 0; color: var(--accent3); font-size: 0.8rem;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg2); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.8rem;
+      transition: border-color 0.25s, transform 0.25s;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: rgba(124,106,247,0.15); display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1.2rem;
+    }
+    .project-name {
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .project-desc { color: var(--text2); font-size: 0.85rem; line-height: 1.7; flex: 1; margin-bottom: 1.2rem; }
+    .project-stack {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem;
+    }
+    .project-stack span {
+      background: rgba(6,214,160,0.08); color: var(--accent3);
+      border: 1px solid rgba(6,214,160,0.2);
+      padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .project-link {
+      color: var(--accent2); text-decoration: none; font-size: 0.82rem;
+      font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent3); }
+
+    /* ── EDUCATION & CERTS ── */
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .edu-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.5rem;
+    }
+    .edu-degree { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .edu-school { color: var(--accent2); font-size: 0.85rem; margin-bottom: 0.5rem; }
+    .edu-meta { color: var(--text3); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-desc { color: var(--text2); font-size: 1rem; max-width: 480px; margin: 0 auto 2.5rem; }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .contact-chip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid var(--border); color: var(--text2);
+      padding: 0.65rem 1.2rem; border-radius: 8px;
+      text-decoration: none; font-size: 0.85rem;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-chip:hover { border-color: var(--accent2); color: var(--accent2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      text-align: center; padding: 1.5rem;
+      color: var(--text3); font-size: 0.78rem; font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── AMBIENT BG ── */
+    .orb {
+      position: fixed; border-radius: 50%; filter: blur(120px);
+      pointer-events: none; z-index: 0;
+    }
+    .orb1 { width: 600px; height: 600px; background: rgba(124,106,247,0.06); top: -200px; right: -200px; }
+    .orb2 { width: 400px; height: 400px; background: rgba(6,214,160,0.04); bottom: 10%; left: -150px; }
+
+    /* animations */
+    .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* mobile */
+    @media (max-width: 768px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .edu-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <h2 class="logo">Bhargavi</h2>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
 
-        <div class="hero">
-            <h1>Hi, I'm Bhargavi 👋</h1>
-            <p>Full Stack Developer</p>
-            <button id="btn">Hire Me</button>
-        </div>
-    </header>
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">BK</a>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            I am a Full Stack Developer passionate about building
-            responsive web applications using HTML, CSS, JavaScript,
-            React, Node.js, PHP, and MySQL.
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-eyebrow">// full stack developer</p>
+        <h1 class="hero-name">Bhargavi<br>Kunta</h1>
+        <p class="hero-title">MERN · Next.js · React Native · PHP · Node.js</p>
+        <p class="hero-desc">
+          2+ years building production-grade web and mobile applications across healthcare, fintech, ERP, and edtech. 8+ live apps shipped. Hyderabad-based, open to remote.
         </p>
-    </section>
-
-    <section id="skills">
-        <h2>Skills</h2>
-
-        <div class="cards">
-            <div class="card">HTML</div>
-            <div class="card">CSS</div>
-            <div class="card">JavaScript</div>
-            <div class="card">React</div>
-            <div class="card">Node.js</div>
-            <div class="card">PHP</div>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="mailto:bhargavikunta99@gmail.com" class="btn-outline">Get in Touch</a>
         </div>
-    </section>
+      </div>
 
-    <section id="projects">
-        <h2>Projects</h2>
-
-        <div class="project-container">
-            <div class="project">
-                <h3>Hospital Management System</h3>
-                <p>Built using PHP, MySQL and JavaScript.</p>
-            </div>
-
-            <div class="project">
-                <h3>Portfolio Website</h3>
-                <p>Responsive portfolio using HTML, CSS and JS.</p>
-            </div>
-
-            <div class="project">
-                <h3>Task Manager</h3>
-                <p>CRUD application with authentication.</p>
-            </div>
+      <div class="hero-visual">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+            <span class="terminal-title">bhargavi.json</span>
+          </div>
+          <div class="terminal-body">
+            <span class="t-bracket">{</span><br>
+            &nbsp;&nbsp;<span class="t-key">"name"</span>: <span class="t-str">"Bhargavi Kunta"</span>,<br>
+            &nbsp;&nbsp;<span class="t-key">"role"</span>: <span class="t-str">"Full Stack Developer"</span>,<br>
+            &nbsp;&nbsp;<span class="t-key">"experience"</span>: <span class="t-num">"2+ years"</span>,<br>
+            &nbsp;&nbsp;<span class="t-key">"apps_shipped"</span>: <span class="t-num">8</span>,<br>
+            &nbsp;&nbsp;<span class="t-key">"stack"</span>: <span class="t-bracket">[</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"React.js"</span>, <span class="t-str">"Next.js"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Node.js"</span>, <span class="t-str">"PHP"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"MySQL"</span>, <span class="t-str">"MongoDB"</span><br>
+            &nbsp;&nbsp;<span class="t-bracket">]</span>,<br>
+            &nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-str">"Hyderabad 🇮🇳"</span>,<br>
+            &nbsp;&nbsp;<span class="t-key">"open_to_remote"</span>: <span class="t-num">true</span><br>
+            <span class="t-bracket">}</span><span class="cursor"></span>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: bhargavi@example.com</p>
-        <p>Phone: +91 XXXXXXXXXX</p>
-    </section>
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat fade-up">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Production Apps</div>
+      </div>
+      <div class="stat fade-up">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat fade-up">
+        <div class="stat-num">40%</div>
+        <div class="stat-label">Workflow Time Saved</div>
+      </div>
+      <div class="stat fade-up">
+        <div class="stat-num">10K+</div>
+        <div class="stat-label">Concurrent Users Served</div>
+      </div>
+    </div>
+  </div>
 
-    <footer>
-        <p>© 2026 Bhargavi Kunta. All Rights Reserved.</p>
-    </footer>
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-inner">
+      <p class="section-label">// capabilities</p>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card fade-up">
+          <div class="skill-category">Front-End</div>
+          <div class="skill-tags">
+            <span class="tag">JavaScript ES6+</span><span class="tag">TypeScript</span>
+            <span class="tag">React.js</span><span class="tag">Next.js</span>
+            <span class="tag">React Native</span><span class="tag">Tailwind CSS</span>
+            <span class="tag">HTML5</span><span class="tag">CSS3</span>
+          </div>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-category">Back-End</div>
+          <div class="skill-tags">
+            <span class="tag">Node.js</span><span class="tag">Express.js</span>
+            <span class="tag">PHP</span><span class="tag">CodeIgniter</span>
+            <span class="tag">Spring Boot</span><span class="tag">Python</span>
+            <span class="tag">Core Java</span>
+          </div>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-category">Databases & APIs</div>
+          <div class="skill-tags">
+            <span class="tag">MySQL</span><span class="tag">MongoDB</span>
+            <span class="tag">RESTful APIs</span>
+          </div>
+        </div>
+        <div class="skill-card fade-up">
+          <div class="skill-category">DevOps & Tools</div>
+          <div class="skill-tags">
+            <span class="tag">Git / GitHub</span><span class="tag">GitHub Actions</span>
+            <span class="tag">Docker (Learning)</span><span class="tag">AWS EC2 / S3</span>
+            <span class="tag">WordPress</span><span class="tag">Agile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner">
+      <p class="section-label">// career</p>
+      <h2 class="section-title">Work Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item fade-up">
+          <div class="timeline-dot"></div>
+          <p class="exp-meta">Jan 2025 – Present · Hyderabad</p>
+          <h3 class="exp-role">Full Stack Developer</h3>
+          <p class="exp-company">Ridgeveda Private Limited</p>
+          <ul class="exp-bullets">
+            <li>Built 5+ production web apps (healthcare, sales, CA, rental, edtech) using MERN + PHP/Node.js — reducing manual workflow time by ~40%</li>
+            <li>Developed Wheel4Drive rental platform with optimized API calls and DB queries for faster page loads</li>
+            <li>Built multi-role Sales App (MERN + MySQL) with real-time analytics supporting 3 user roles</li>
+            <li>Delivered CareDesk360 Healthcare App managing patient records for 500+ patients</li>
+            <li>Implemented GitHub Actions CI/CD pipelines across all projects</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item fade-up">
+          <div class="timeline-dot"></div>
+          <p class="exp-meta">Feb 2024 – Dec 2024 · Hyderabad</p>
+          <h3 class="exp-role">Full Stack Developer</h3>
+          <p class="exp-company">SandBlazeDigitas</p>
+          <ul class="exp-bullets">
+            <li>Developed CFOre Rankings — India's comprehensive school ranking platform serving 10,000+ concurrent users</li>
+            <li>Built and enhanced enterprise ERP system using CodeIgniter and PHP</li>
+            <li>Optimized DB queries and caching, reducing average page load time by ~30%</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item fade-up">
+          <div class="timeline-dot"></div>
+          <p class="exp-meta">Apr 2022 – Jun 2022 · Hyderabad</p>
+          <h3 class="exp-role">Java Full Stack Developer (Intern)</h3>
+          <p class="exp-company">Wipro Technologies</p>
+          <ul class="exp-bullets">
+            <li>Contributed to a full-stack e-commerce platform (Angular + Spring Boot + MySQL)</li>
+            <li>Built responsive UI components integrated with Spring Boot REST APIs</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <p class="section-label">// shipped</p>
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="projects-grid">
+
+        <div class="project-card fade-up">
+          <div class="project-icon">🏥</div>
+          <div class="project-name">CareDesk360</div>
+          <p class="project-desc">Healthcare management app handling patient records, appointment scheduling, and medical data — scaled for 500+ patients.</p>
+          <div class="project-stack">
+            <span>React.js</span><span>Node.js</span><span>Express.js</span><span>MySQL</span>
+          </div>
+          <a href="https://caredesk360.com/" target="_blank" class="project-link">Live ↗</a>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-icon">🏫</div>
+          <div class="project-name">CFOre Rankings</div>
+          <p class="project-desc">India's comprehensive school ranking platform with optimized server performance, serving 10,000+ concurrent users nationwide.</p>
+          <div class="project-stack">
+            <span>PHP</span><span>JavaScript</span><span>Bootstrap</span><span>MySQL</span>
+          </div>
+          <a href="https://www.cforerankings.com/" target="_blank" class="project-link">Live ↗</a>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-icon">📊</div>
+          <div class="project-name">Practice Management Platform</div>
+          <p class="project-desc">Chartered Accountant platform for client management, financial tracking, and automated reporting workflows.</p>
+          <div class="project-stack">
+            <span>React.js</span><span>Node.js</span><span>MySQL</span>
+          </div>
+          <a href="https://practicemanagementplatform.com/" target="_blank" class="project-link">Live ↗</a>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-icon">💳</div>
+          <div class="project-name">SelectCards Sales App</div>
+          <p class="project-desc">Multi-role sales management system with advanced dashboards, real-time analytics, and reporting for 3 user types.</p>
+          <div class="project-stack">
+            <span>React.js</span><span>Node.js</span><span>MySQL</span>
+          </div>
+          <a href="https://sales.selectcards.ai/" target="_blank" class="project-link">Live ↗</a>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-icon">🌐</div>
+          <div class="project-name">Ridgeveda Website</div>
+          <p class="project-desc">Corporate website built with Next.js frontend and Node.js/PHP backend — fully responsive and production-deployed.</p>
+          <div class="project-stack">
+            <span>Next.js</span><span>Node.js</span><span>PHP</span>
+          </div>
+          <a href="https://ridgeveda.com/" target="_blank" class="project-link">Live ↗</a>
+        </div>
+
+        <div class="project-card fade-up">
+          <div class="project-icon">📱</div>
+          <div class="project-name">E-Commerce Mobile App</div>
+          <p class="project-desc">Cross-platform mobile shopping app with cart functionality, backend API integration, and smooth user experience.</p>
+          <div class="project-stack">
+            <span>React Native</span><span>REST API</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-inner">
+      <p class="section-label">// background</p>
+      <h2 class="section-title">Education & Certifications</h2>
+      <div class="edu-grid">
+        <div class="edu-card fade-up">
+          <div class="edu-degree">B.Tech – Computer Science Engineering</div>
+          <div class="edu-school">Dhanekula Institute of Engineering and Technology</div>
+          <div class="edu-meta">2018 – 2022 · CGPA: 8.31 / 10</div>
+        </div>
+        <div class="edu-card fade-up">
+          <div class="edu-degree">Intermediate – MPC</div>
+          <div class="edu-school">Sri Chaitanya Junior College</div>
+          <div class="edu-meta">2016 – 2018 · Score: 971 / 1000</div>
+        </div>
+        <div class="edu-card fade-up" style="border-color: rgba(6,214,160,0.2);">
+          <div class="edu-degree">Java Full Stack Training & Internship</div>
+          <div class="edu-school" style="color: var(--accent3);">Wipro Technologies</div>
+          <div class="edu-meta">Apr 2022 – Jun 2022 · Certified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <p class="section-label">// let's connect</p>
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="contact-desc">Open to full-time roles, freelance projects, and remote opportunities. Let's build something great together.</p>
+      <div class="contact-links">
+        <a href="mailto:bhargavikunta99@gmail.com" class="contact-chip">✉️ bhargavikunta99@gmail.com</a>
+        <a href="tel:+919347950236" class="contact-chip">📞 +91 93479 50236</a>
+        <a href="https://linkedin.com/in/bhargavi-kunta-492652193" target="_blank" class="contact-chip">🔗 LinkedIn</a>
+        <a href="https://github.com/BhargaviKunta" target="_blank" class="contact-chip">🐙 GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Bhargavi Kunta · Full Stack Developer · Hyderabad, Telangana</p>
+  </footer>
+
+  <script>
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Smooth active nav highlighting
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--accent2)' : '';
+      });
+    });
+  </script>
 </body>
 </html>
